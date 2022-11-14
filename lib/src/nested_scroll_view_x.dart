@@ -46,7 +46,7 @@ class NestedScrollViewStateX extends NestedScrollViewState {
   @override
   void initState() {
     super.initState();
-    _coordinator = _NestedScrollCoordinatorX(
+    coordinator = _NestedScrollCoordinatorX(
       this,
       widget.controller,
       _handleHasScrolledBodyChanged,

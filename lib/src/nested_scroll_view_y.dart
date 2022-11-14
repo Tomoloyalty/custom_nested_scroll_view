@@ -29,10 +29,8 @@ class NestedScrollViewY extends NestedScrollView {
           scrollBehavior: scrollBehavior,
         );
 
-  static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(
-      BuildContext context) {
-    final _InheritedNestedScrollView? target = context
-        .dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
+  static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(BuildContext context) {
+    final _InheritedNestedScrollView? target = context.dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
     assert(
       target != null,
       '_NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a _NestedScrollView.',
@@ -48,7 +46,7 @@ class _NestedScrollViewStateY extends NestedScrollViewState {
   @override
   void initState() {
     super.initState();
-    _coordinator = _NestedScrollCoordinatorY(
+    coordinator = _NestedScrollCoordinatorY(
       this,
       widget.controller,
       _handleHasScrolledBodyChanged,
@@ -62,8 +60,7 @@ class _NestedScrollControllerY extends _NestedScrollController {
     _NestedScrollCoordinatorY coordinator, {
     double initialScrollOffset = 0.0,
     String? debugLabel,
-  }) : super(coordinator,
-            initialScrollOffset: initialScrollOffset, debugLabel: debugLabel);
+  }) : super(coordinator, initialScrollOffset: initialScrollOffset, debugLabel: debugLabel);
 
   @override
   ScrollPosition createScrollPosition(
@@ -82,8 +79,7 @@ class _NestedScrollControllerY extends _NestedScrollController {
   }
 
   @override
-  Iterable<_NestedScrollPosition> get nestedPositions =>
-      kDebugMode ? _debugNestedPositions : _releaseNestedPositions;
+  Iterable<_NestedScrollPosition> get nestedPositions => kDebugMode ? _debugNestedPositions : _releaseNestedPositions;
 
   Iterable<_NestedScrollPosition> get _debugNestedPositions {
     return Iterable.castFrom<ScrollPosition, _NestedScrollPosition>(positions);
@@ -116,8 +112,7 @@ class _NestedScrollCoordinatorY extends _NestedScrollCoordinator {
 
   ///内部列表位置
   _NestedScrollPosition? get _innerPosition {
-    if (!_innerController.hasClients ||
-        _innerController.nestedPositions.isEmpty) return null;
+    if (!_innerController.hasClients || _innerController.nestedPositions.isEmpty) return null;
     _NestedScrollPosition? innerPosition;
     if (userScrollDirection != ScrollDirection.idle) {
       for (final _NestedScrollPosition position in _innerPositions) {
@@ -136,12 +131,11 @@ class _NestedScrollCoordinatorY extends _NestedScrollCoordinator {
   }
 
   @override
-  _NestedScrollMetrics _getMetrics(
-      _NestedScrollPosition innerPosition, double velocity) {
+  _NestedScrollMetrics _getMetrics(_NestedScrollPosition innerPosition, double velocity) {
     return _NestedScrollMetrics(
       minScrollExtent: _outerPosition!.minScrollExtent,
-      maxScrollExtent: _outerPosition!.maxScrollExtent +
-          (innerPosition.maxScrollExtent - innerPosition.minScrollExtent),
+      maxScrollExtent:
+          _outerPosition!.maxScrollExtent + (innerPosition.maxScrollExtent - innerPosition.minScrollExtent),
       pixels: unnestOffset(innerPosition.pixels, innerPosition),
       viewportDimension: _outerPosition!.viewportDimension,
       axisDirection: _outerPosition!.axisDirection,
@@ -160,18 +154,15 @@ class _NestedScrollCoordinatorY extends _NestedScrollCoordinator {
         _outerPosition!.maxScrollExtent,
       );
     }
-    if (_outerPosition!.maxScrollExtent - _outerPosition!.pixels >
-            precisionErrorTolerance &&
-        (_outerPosition!.pixels - _outerPosition!.minScrollExtent) >
-            precisionErrorTolerance) {
+    if (_outerPosition!.maxScrollExtent - _outerPosition!.pixels > precisionErrorTolerance &&
+        (_outerPosition!.pixels - _outerPosition!.minScrollExtent) > precisionErrorTolerance) {
       ///outer在滚动，以outer位置为基准
       return _outerPosition!.pixels.clamp(
         _outerPosition!.minScrollExtent,
         _outerPosition!.maxScrollExtent,
       );
     }
-    if (value <= source.minScrollExtent)
-      return value - source.minScrollExtent + _outerPosition!.minScrollExtent;
+    if (value <= source.minScrollExtent) return value - source.minScrollExtent + _outerPosition!.minScrollExtent;
     return value - source.minScrollExtent + _outerPosition!.maxScrollExtent;
   }
 }
@@ -249,8 +240,7 @@ class _NestedBallisticScrollActivityY extends BallisticScrollActivity {
   }
 }
 
-class _NestedOuterBallisticScrollActivityY
-    extends _NestedBallisticScrollActivityY {
+class _NestedOuterBallisticScrollActivityY extends _NestedBallisticScrollActivityY {
   _NestedOuterBallisticScrollActivityY(
     _NestedScrollCoordinator coordinator,
     _NestedScrollPosition position,
@@ -273,8 +263,7 @@ class _NestedOuterBallisticScrollActivityY
   }
 }
 
-class _NestedInnerBallisticScrollActivityY
-    extends _NestedBallisticScrollActivityY {
+class _NestedInnerBallisticScrollActivityY extends _NestedBallisticScrollActivityY {
   _NestedInnerBallisticScrollActivityY(
     _NestedScrollCoordinator coordinator,
     _NestedScrollPosition position,

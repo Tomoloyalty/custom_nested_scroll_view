@@ -348,7 +348,7 @@ class NestedScrollViewState extends State<NestedScrollView> {
   ///
   ///  * [outerController], which exposes the [ScrollController] used by the
   ///    sliver(s) contained in [_NestedScrollView.headerSliverBuilder].
-  ScrollController get innerController => _coordinator!._innerController;
+  ScrollController get innerController => coordinator!._innerController;
 
   /// The [ScrollController] provided to the [ScrollView] in
   /// [NestedScrollView.headerSliverBuilder].
@@ -365,14 +365,14 @@ class NestedScrollViewState extends State<NestedScrollView> {
   ///
   ///  * [innerController], which exposes the [ScrollController] used by the
   ///    [ScrollView] contained in [_NestedScrollView.body].
-  ScrollController get outerController => _coordinator!._outerController;
+  ScrollController get outerController => coordinator!._outerController;
 
-  _NestedScrollCoordinator? _coordinator;
+  _NestedScrollCoordinator? coordinator;
 
   @override
   void initState() {
     super.initState();
-    _coordinator = _NestedScrollCoordinator(
+    coordinator = _NestedScrollCoordinator(
       this,
       widget.controller,
       _handleHasScrolledBodyChanged,
@@ -383,19 +383,19 @@ class NestedScrollViewState extends State<NestedScrollView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _coordinator!.setParent(widget.controller);
+    coordinator!.setParent(widget.controller);
   }
 
   @override
   void didUpdateWidget(NestedScrollView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != widget.controller) _coordinator!.setParent(widget.controller);
+    if (oldWidget.controller != widget.controller) coordinator!.setParent(widget.controller);
   }
 
   @override
   void dispose() {
-    _coordinator!.dispose();
-    _coordinator = null;
+    coordinator!.dispose();
+    coordinator = null;
     super.dispose();
   }
 
@@ -403,7 +403,7 @@ class NestedScrollViewState extends State<NestedScrollView> {
 
   void _handleHasScrolledBodyChanged() {
     if (!mounted) return;
-    final bool newHasScrolledBody = _coordinator!.hasScrolledBody;
+    final bool newHasScrolledBody = coordinator!.hasScrolledBody;
     if (_lastHasScrolledBody != newHasScrolledBody) {
       setState(() {
         // _coordinator.hasScrolledBody changed (we use it in the build method)
@@ -425,17 +425,17 @@ class NestedScrollViewState extends State<NestedScrollView> {
       state: this,
       child: Builder(
         builder: (BuildContext context) {
-          _lastHasScrolledBody = _coordinator!.hasScrolledBody;
+          _lastHasScrolledBody = coordinator!.hasScrolledBody;
           return _NestedScrollViewCustomScrollView(
             dragStartBehavior: widget.dragStartBehavior,
             scrollDirection: widget.scrollDirection,
             reverse: widget.reverse,
             physics: _scrollPhysics,
             scrollBehavior: widget.scrollBehavior ?? ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            controller: _coordinator!._outerController,
+            controller: coordinator!._outerController,
             slivers: widget._buildSlivers(
               context,
-              _coordinator!._innerController,
+              coordinator!._innerController,
               _lastHasScrolledBody!,
             ),
             handle: _absorberHandle,
