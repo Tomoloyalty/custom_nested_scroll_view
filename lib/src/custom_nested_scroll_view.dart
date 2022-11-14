@@ -84,6 +84,7 @@ class CustomNestedScrollView extends StatelessWidget {
   ///}
   ///```
   const CustomNestedScrollView({
+    this.nestedScrollViewKey,
     Key? key,
     this.controller,
     this.scrollDirection = Axis.vertical,
@@ -112,10 +113,13 @@ class CustomNestedScrollView extends StatelessWidget {
   ///allow which scroller to overscroll
   final CustomOverscroll overscrollType;
 
+  final GlobalKey? nestedScrollViewKey;
+
   @override
   Widget build(BuildContext context) {
     return overscrollType == CustomOverscroll.outer
         ? NestedScrollViewX(
+            key: nestedScrollViewKey,
             controller: controller,
             scrollDirection: scrollDirection,
             reverse: reverse,
@@ -129,6 +133,7 @@ class CustomNestedScrollView extends StatelessWidget {
             scrollBehavior: scrollBehavior,
           )
         : NestedScrollViewY(
+            key: nestedScrollViewKey,
             controller: controller,
             scrollDirection: scrollDirection,
             reverse: reverse,
@@ -143,10 +148,8 @@ class CustomNestedScrollView extends StatelessWidget {
           );
   }
 
-  static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(
-      BuildContext context) {
-    final target = context
-        .dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
+  static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(BuildContext context) {
+    final target = context.dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
     assert(
       target != null,
       '_NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a _NestedScrollView.',
