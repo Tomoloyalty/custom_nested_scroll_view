@@ -1,6 +1,6 @@
 part of 'nested_scroll_view.dart';
 
-class NestedScrollViewX extends _NestedScrollView {
+class NestedScrollViewX extends NestedScrollView {
   const NestedScrollViewX({
     Key? key,
     ScrollController? controller,
@@ -29,10 +29,8 @@ class NestedScrollViewX extends _NestedScrollView {
           scrollBehavior: scrollBehavior,
         );
 
-  static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(
-      BuildContext context) {
-    final _InheritedNestedScrollView? target = context
-        .dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
+  static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(BuildContext context) {
+    final _InheritedNestedScrollView? target = context.dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
     assert(
       target != null,
       '_NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a _NestedScrollView.',
@@ -41,10 +39,10 @@ class NestedScrollViewX extends _NestedScrollView {
   }
 
   @override
-  _NestedScrollViewState createState() => _NestedScrollViewStateX();
+  NestedScrollViewState createState() => NestedScrollViewStateX();
 }
 
-class _NestedScrollViewStateX extends _NestedScrollViewState {
+class NestedScrollViewStateX extends NestedScrollViewState {
   @override
   void initState() {
     super.initState();
@@ -62,8 +60,7 @@ class _NestedScrollControllerX extends _NestedScrollController {
     _NestedScrollCoordinatorX coordinator, {
     double initialScrollOffset = 0.0,
     String? debugLabel,
-  }) : super(coordinator,
-            initialScrollOffset: initialScrollOffset, debugLabel: debugLabel);
+  }) : super(coordinator, initialScrollOffset: initialScrollOffset, debugLabel: debugLabel);
 
   @override
   ScrollPosition createScrollPosition(
@@ -82,8 +79,7 @@ class _NestedScrollControllerX extends _NestedScrollController {
   }
 
   @override
-  Iterable<_NestedScrollPosition> get nestedPositions =>
-      kDebugMode ? _debugNestedPositions : _releaseNestedPositions;
+  Iterable<_NestedScrollPosition> get nestedPositions => kDebugMode ? _debugNestedPositions : _releaseNestedPositions;
 
   Iterable<_NestedScrollPosition> get _debugNestedPositions {
     return Iterable.castFrom<ScrollPosition, _NestedScrollPosition>(positions);
@@ -96,7 +92,7 @@ class _NestedScrollControllerX extends _NestedScrollController {
 
 class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
   _NestedScrollCoordinatorX(
-    _NestedScrollViewStateX state,
+    NestedScrollViewStateX state,
     ScrollController? parent,
     VoidCallback onHasScrolledBodyChanged,
     bool floatHeaderSlivers,
@@ -116,8 +112,7 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
 
   ///内部列表位置
   _NestedScrollPosition? get _innerPosition {
-    if (!_innerController.hasClients ||
-        _innerController.nestedPositions.isEmpty) return null;
+    if (!_innerController.hasClients || _innerController.nestedPositions.isEmpty) return null;
     _NestedScrollPosition? innerPosition;
     if (userScrollDirection != ScrollDirection.idle) {
       for (final _NestedScrollPosition position in _innerPositions) {
@@ -136,12 +131,11 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
   }
 
   @override
-  _NestedScrollMetrics _getMetrics(
-      _NestedScrollPosition innerPosition, double velocity) {
+  _NestedScrollMetrics _getMetrics(_NestedScrollPosition innerPosition, double velocity) {
     return _NestedScrollMetrics(
       minScrollExtent: _outerPosition!.minScrollExtent,
-      maxScrollExtent: _outerPosition!.maxScrollExtent +
-          (innerPosition.maxScrollExtent - innerPosition.minScrollExtent),
+      maxScrollExtent:
+          _outerPosition!.maxScrollExtent + (innerPosition.maxScrollExtent - innerPosition.minScrollExtent),
       pixels: unnestOffset(innerPosition.pixels, innerPosition),
       viewportDimension: _outerPosition!.viewportDimension,
       axisDirection: _outerPosition!.axisDirection,
@@ -157,8 +151,7 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
     if (source == _outerPosition) {
       return value;
     } else {
-      if (_outerPosition!.maxScrollExtent - _outerPosition!.pixels >
-          precisionErrorTolerance) {
+      if (_outerPosition!.maxScrollExtent - _outerPosition!.pixels > precisionErrorTolerance) {
         ///outer在滚动，以outer位置为基准
         return _outerPosition!.pixels;
       }
@@ -180,23 +173,20 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
         //不允许inner顶部overscroll
         return target.minScrollExtent;
       }
-      return (target.minScrollExtent +
-          (value - _outerPosition!.maxScrollExtent));
+      return (target.minScrollExtent + (value - _outerPosition!.maxScrollExtent));
     }
   }
 
   @override
   void applyUserOffset(double delta) {
-    updateUserScrollDirection(
-        delta > 0.0 ? ScrollDirection.forward : ScrollDirection.reverse);
+    updateUserScrollDirection(delta > 0.0 ? ScrollDirection.forward : ScrollDirection.reverse);
     if (_innerPositions.isEmpty) {
       _outerPosition!.applyFullDragUpdate(delta);
     } else if (delta < 0.0) {
       double outerDelta = delta;
       for (final _NestedScrollPosition position in _innerPositions) {
         if (position.pixels < position.minScrollExtent) {
-          final double potentialOuterDelta =
-              position.applyClampedDragUpdate(delta);
+          final double potentialOuterDelta = position.applyClampedDragUpdate(delta);
           if (potentialOuterDelta < 0) {
             outerDelta = math.max(outerDelta, potentialOuterDelta);
           }
@@ -207,8 +197,7 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
           outerDelta,
         );
         if (innerDelta != 0.0) {
-          for (final _NestedScrollPosition position in _innerPositions)
-            position.applyFullDragUpdate(innerDelta);
+          for (final _NestedScrollPosition position in _innerPositions) position.applyFullDragUpdate(innerDelta);
         }
       }
     } else {
@@ -305,8 +294,7 @@ class _NestedBallisticScrollActivityX extends BallisticScrollActivity {
   }
 }
 
-class _NestedOuterBallisticScrollActivityX
-    extends _NestedBallisticScrollActivityX {
+class _NestedOuterBallisticScrollActivityX extends _NestedBallisticScrollActivityX {
   _NestedOuterBallisticScrollActivityX(
     _NestedScrollCoordinator coordinator,
     _NestedScrollPosition position,
@@ -329,8 +317,7 @@ class _NestedOuterBallisticScrollActivityX
   }
 }
 
-class _NestedInnerBallisticScrollActivityX
-    extends _NestedBallisticScrollActivityX {
+class _NestedInnerBallisticScrollActivityX extends _NestedBallisticScrollActivityX {
   _NestedInnerBallisticScrollActivityX(
     _NestedScrollCoordinator coordinator,
     _NestedScrollPosition position,
@@ -394,24 +381,17 @@ class _RenderSliverOverlapAbsorberX extends _RenderSliverOverlapAbsorber {
     final SliverGeometry childLayoutGeometry = child!.geometry!;
     final maxExtent = childLayoutGeometry.scrollExtent;
     final minExtent = childLayoutGeometry.maxScrollObstructionExtent;
-    final topOverscroll =
-        childLayoutGeometry.paintExtent > childLayoutGeometry.scrollExtent;
+    final topOverscroll = childLayoutGeometry.paintExtent > childLayoutGeometry.scrollExtent;
     final topOverscrollExtend =
-        (childLayoutGeometry.paintExtent - childLayoutGeometry.scrollExtent)
-            .clamp(0, double.infinity);
-    final absorbsExtend =
-        topOverscroll ? 0.0 : childLayoutGeometry.maxScrollObstructionExtent;
+        (childLayoutGeometry.paintExtent - childLayoutGeometry.scrollExtent).clamp(0, double.infinity);
+    final absorbsExtend = topOverscroll ? 0.0 : childLayoutGeometry.maxScrollObstructionExtent;
     geometry = SliverGeometry(
-      scrollExtent: childLayoutGeometry.scrollExtent -
-          absorbsExtend -
-          topOverscrollExtend,
+      scrollExtent: childLayoutGeometry.scrollExtent - absorbsExtend - topOverscrollExtend,
       paintExtent: childLayoutGeometry.paintExtent,
       paintOrigin: childLayoutGeometry.paintOrigin,
-      layoutExtent:
-          childLayoutGeometry.paintExtent - absorbsExtend - topOverscrollExtend,
+      layoutExtent: childLayoutGeometry.paintExtent - absorbsExtend - topOverscrollExtend,
       maxPaintExtent: childLayoutGeometry.maxPaintExtent,
-      maxScrollObstructionExtent:
-          childLayoutGeometry.maxScrollObstructionExtent,
+      maxScrollObstructionExtent: childLayoutGeometry.maxScrollObstructionExtent,
       hitTestExtent: childLayoutGeometry.hitTestExtent,
       visible: childLayoutGeometry.visible,
       hasVisualOverflow: childLayoutGeometry.hasVisualOverflow,

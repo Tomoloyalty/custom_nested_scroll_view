@@ -1,6 +1,6 @@
 part of 'nested_scroll_view.dart';
 
-class NestedScrollViewY extends _NestedScrollView {
+class NestedScrollViewY extends NestedScrollView {
   const NestedScrollViewY({
     Key? key,
     ScrollController? controller,
@@ -41,10 +41,10 @@ class NestedScrollViewY extends _NestedScrollView {
   }
 
   @override
-  _NestedScrollViewState createState() => _NestedScrollViewStateY();
+  NestedScrollViewState createState() => _NestedScrollViewStateY();
 }
 
-class _NestedScrollViewStateY extends _NestedScrollViewState {
+class _NestedScrollViewStateY extends NestedScrollViewState {
   @override
   void initState() {
     super.initState();
