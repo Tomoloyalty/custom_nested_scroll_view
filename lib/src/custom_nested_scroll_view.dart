@@ -97,6 +97,7 @@ class CustomNestedScrollView extends StatelessWidget {
     this.restorationId,
     this.scrollBehavior,
     this.overscrollType = CustomOverscroll.outer,
+    required this.selectedTabIndex,
   }) : super(key: key);
 
   final ScrollController? controller;
@@ -115,44 +116,50 @@ class CustomNestedScrollView extends StatelessWidget {
 
   final GlobalKey? nestedScrollViewKey;
 
+  final int selectedTabIndex;
+
   @override
   Widget build(BuildContext context) {
     return overscrollType == CustomOverscroll.outer
         ? NestedScrollViewX(
-            key: nestedScrollViewKey,
-            controller: controller,
-            scrollDirection: scrollDirection,
-            reverse: reverse,
-            physics: physics,
-            headerSliverBuilder: headerSliverBuilder,
-            body: body,
-            dragStartBehavior: dragStartBehavior,
-            floatHeaderSlivers: false, //does not support floatHeaderSlivers
-            clipBehavior: clipBehavior,
-            restorationId: restorationId,
-            scrollBehavior: scrollBehavior,
-          )
+      key: nestedScrollViewKey,
+      controller: controller,
+      scrollDirection: scrollDirection,
+      reverse: reverse,
+      physics: physics,
+      headerSliverBuilder: headerSliverBuilder,
+      body: body,
+      dragStartBehavior: dragStartBehavior,
+      floatHeaderSlivers: false,
+      //does not support floatHeaderSlivers
+      clipBehavior: clipBehavior,
+      restorationId: restorationId,
+      scrollBehavior: scrollBehavior,
+      selectedTabIndex: selectedTabIndex,
+    )
         : NestedScrollViewY(
-            key: nestedScrollViewKey,
-            controller: controller,
-            scrollDirection: scrollDirection,
-            reverse: reverse,
-            physics: physics,
-            headerSliverBuilder: headerSliverBuilder,
-            body: body,
-            dragStartBehavior: dragStartBehavior,
-            floatHeaderSlivers: false, //does not support floatHeaderSlivers
-            clipBehavior: clipBehavior,
-            restorationId: restorationId,
-            scrollBehavior: scrollBehavior,
-          );
+      key: nestedScrollViewKey,
+      controller: controller,
+      scrollDirection: scrollDirection,
+      reverse: reverse,
+      physics: physics,
+      headerSliverBuilder: headerSliverBuilder,
+      body: body,
+      dragStartBehavior: dragStartBehavior,
+      floatHeaderSlivers: false,
+      //does not support floatHeaderSlivers
+      clipBehavior: clipBehavior,
+      restorationId: restorationId,
+      scrollBehavior: scrollBehavior,
+      selectedTabIndex: selectedTabIndex,
+    );
   }
 
   static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(BuildContext context) {
     final target = context.dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
     assert(
-      target != null,
-      '_NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a _NestedScrollView.',
+    target != null,
+    '_NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a _NestedScrollView.',
     );
     return target!.state._absorberHandle;
   }
