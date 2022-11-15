@@ -190,21 +190,29 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
     if (_innerPositions.isEmpty) {
       _outerPosition!.applyFullDragUpdate(delta);
     } else if (delta < 0.0) {
+      int currIndex = 0;
       double outerDelta = delta;
       for (final _NestedScrollPosition position in _innerPositions) {
-        if (position.pixels < position.minScrollExtent) {
+        if (currIndex == selectedTabIndex && position.pixels < position.minScrollExtent) {
           final double potentialOuterDelta = position.applyClampedDragUpdate(delta);
           if (potentialOuterDelta < 0) {
             outerDelta = math.max(outerDelta, potentialOuterDelta);
           }
         }
+        currIndex++;
       }
       if (outerDelta != 0.0) {
         final double innerDelta = _outerPosition!.applyClampedDragUpdate(
           outerDelta,
         );
         if (innerDelta != 0.0) {
-          for (final _NestedScrollPosition position in _innerPositions) position.applyFullDragUpdate(innerDelta);
+          int currIndex = 0;
+          for (final _NestedScrollPosition position in _innerPositions){
+            if(currIndex == selectedTabIndex){
+              position.applyFullDragUpdate(innerDelta);
+            }
+            currIndex++;
+          }
         }
       }
     } else {
@@ -216,8 +224,8 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
         int currIndex = 0;
         double? outerDelta;
         for (final _NestedScrollPosition position in _innerPositions) {
-          final double overscroll = position.applyClampedDragUpdate(innerDelta);
           if (currIndex == selectedTabIndex) {
+            final double overscroll = position.applyClampedDragUpdate(innerDelta);
             outerDelta = overscroll;
           }
           currIndex++;
