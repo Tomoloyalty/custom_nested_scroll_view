@@ -206,14 +206,16 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
         innerDelta = _outerPosition!.applyClampedDragUpdate(delta);
       }
       if (innerDelta != 0.0) {
-        double outerDelta = 0.0;
+        double? outerDelta;
         for (final _NestedScrollPosition position in _innerPositions) {
           final double overscroll = position.applyClampedDragUpdate(innerDelta);
-          if (overscroll > 0) {
-            outerDelta = math.max(outerDelta, overscroll);
+          if (outerDelta == null) {
+            outerDelta = overscroll;
+          } else {
+            outerDelta = math.min(outerDelta, overscroll);
           }
         }
-        if (outerDelta != 0.0) {
+        if (outerDelta != null && outerDelta != 0.0) {
           _outerPosition!.applyFullDragUpdate(outerDelta);
         }
       }
