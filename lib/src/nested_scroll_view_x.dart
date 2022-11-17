@@ -116,6 +116,19 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
     );
   }
 
+  @override
+  void goBallistic(double velocity) {
+    beginActivity(
+      createOuterBallisticScrollActivity(velocity),
+          (_NestedScrollPosition position) {
+        return createInnerBallisticScrollActivity(
+          position,
+          position == _innerPositions.toList()[getSelectedTabIndex()] ? velocity : 0,
+        );
+      },
+    );
+  }
+
   ///内部列表位置
   _NestedScrollPosition? get _innerPosition {
     if (!_innerController.hasClients || _innerController.nestedPositions.isEmpty) return null;
@@ -207,8 +220,8 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
         );
         if (innerDelta != 0.0) {
           int currIndex = 0;
-          for (final _NestedScrollPosition position in _innerPositions){
-            if(currIndex == selectedTabIndex){
+          for (final _NestedScrollPosition position in _innerPositions) {
+            if (currIndex == selectedTabIndex) {
               position.applyFullDragUpdate(innerDelta);
             }
             currIndex++;
@@ -232,6 +245,9 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
         }
         if (outerDelta != null && outerDelta != 0.0) {
           _outerPosition!.applyFullDragUpdate(outerDelta);
+          for (final _NestedScrollPosition position in _innerPositions) {
+            position.forcePixels(0);
+          }
         }
       }
     }

@@ -171,7 +171,8 @@ class CustomSliverOverlapAbsorber extends _SliverOverlapAbsorber {
     required _SliverOverlapAbsorberHandle handle,
     Widget? sliver,
     CustomOverscroll overscrollType = CustomOverscroll.outer,
-  })  : _overscrollType = overscrollType,
+  })
+      : _overscrollType = overscrollType,
         super(key: key, handle: handle, sliver: sliver);
 
   ///allow which scroller to overscroll
@@ -191,7 +192,8 @@ class CustomSliverOverlapInjector extends _SliverOverlapInjector {
     required _SliverOverlapAbsorberHandle handle,
     Widget? sliver,
     CustomOverscroll overscrollType = CustomOverscroll.outer,
-  })  : _overscrollType = overscrollType,
+  })
+      : _overscrollType = overscrollType,
         super(key: key, handle: handle, sliver: sliver);
 
   ///allow which scroller to overscroll
