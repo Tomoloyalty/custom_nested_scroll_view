@@ -243,6 +243,7 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
           }
           currIndex++;
         }
+        if ((outerDelta ?? 0) < 0.0001) return;
         if (outerDelta != null && outerDelta != 0.0) {
           _outerPosition!.applyFullDragUpdate(outerDelta);
           for (final _NestedScrollPosition position in _innerPositions) {
