@@ -97,7 +97,7 @@ class CustomNestedScrollView extends StatelessWidget {
     this.restorationId,
     this.scrollBehavior,
     this.overscrollType = CustomOverscroll.outer,
-    required this.selectedTabIndex,
+    required this.selectedTabPositionIndex,
   }) : super(key: key);
 
   final ScrollController? controller;
@@ -116,50 +116,50 @@ class CustomNestedScrollView extends StatelessWidget {
 
   final GlobalKey? nestedScrollViewKey;
 
-  final int selectedTabIndex;
+  final int selectedTabPositionIndex;
 
   @override
   Widget build(BuildContext context) {
     return overscrollType == CustomOverscroll.outer
         ? NestedScrollViewX(
-      key: nestedScrollViewKey,
-      controller: controller,
-      scrollDirection: scrollDirection,
-      reverse: reverse,
-      physics: physics,
-      headerSliverBuilder: headerSliverBuilder,
-      body: body,
-      dragStartBehavior: dragStartBehavior,
-      floatHeaderSlivers: false,
-      //does not support floatHeaderSlivers
-      clipBehavior: clipBehavior,
-      restorationId: restorationId,
-      scrollBehavior: scrollBehavior,
-      selectedTabIndex: selectedTabIndex,
-    )
+            key: nestedScrollViewKey,
+            controller: controller,
+            scrollDirection: scrollDirection,
+            reverse: reverse,
+            physics: physics,
+            headerSliverBuilder: headerSliverBuilder,
+            body: body,
+            dragStartBehavior: dragStartBehavior,
+            floatHeaderSlivers: false,
+            //does not support floatHeaderSlivers
+            clipBehavior: clipBehavior,
+            restorationId: restorationId,
+            scrollBehavior: scrollBehavior,
+            selectedTabPositionIndex: selectedTabPositionIndex,
+          )
         : NestedScrollViewY(
-      key: nestedScrollViewKey,
-      controller: controller,
-      scrollDirection: scrollDirection,
-      reverse: reverse,
-      physics: physics,
-      headerSliverBuilder: headerSliverBuilder,
-      body: body,
-      dragStartBehavior: dragStartBehavior,
-      floatHeaderSlivers: false,
-      //does not support floatHeaderSlivers
-      clipBehavior: clipBehavior,
-      restorationId: restorationId,
-      scrollBehavior: scrollBehavior,
-      selectedTabIndex: selectedTabIndex,
-    );
+            key: nestedScrollViewKey,
+            controller: controller,
+            scrollDirection: scrollDirection,
+            reverse: reverse,
+            physics: physics,
+            headerSliverBuilder: headerSliverBuilder,
+            body: body,
+            dragStartBehavior: dragStartBehavior,
+            floatHeaderSlivers: false,
+            //does not support floatHeaderSlivers
+            clipBehavior: clipBehavior,
+            restorationId: restorationId,
+            scrollBehavior: scrollBehavior,
+            selectedTabPositionIndex: selectedTabPositionIndex,
+          );
   }
 
   static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(BuildContext context) {
     final target = context.dependOnInheritedWidgetOfExactType<_InheritedNestedScrollView>();
     assert(
-    target != null,
-    '_NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a _NestedScrollView.',
+      target != null,
+      '_NestedScrollView.sliverOverlapAbsorberHandleFor must be called with a context that contains a _NestedScrollView.',
     );
     return target!.state._absorberHandle;
   }
@@ -171,8 +171,7 @@ class CustomSliverOverlapAbsorber extends _SliverOverlapAbsorber {
     required _SliverOverlapAbsorberHandle handle,
     Widget? sliver,
     CustomOverscroll overscrollType = CustomOverscroll.outer,
-  })
-      : _overscrollType = overscrollType,
+  })  : _overscrollType = overscrollType,
         super(key: key, handle: handle, sliver: sliver);
 
   ///allow which scroller to overscroll
@@ -192,8 +191,7 @@ class CustomSliverOverlapInjector extends _SliverOverlapInjector {
     required _SliverOverlapAbsorberHandle handle,
     Widget? sliver,
     CustomOverscroll overscrollType = CustomOverscroll.outer,
-  })
-      : _overscrollType = overscrollType,
+  })  : _overscrollType = overscrollType,
         super(key: key, handle: handle, sliver: sliver);
 
   ///allow which scroller to overscroll
