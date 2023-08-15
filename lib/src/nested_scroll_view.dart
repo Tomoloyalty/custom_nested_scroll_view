@@ -181,7 +181,7 @@ class NestedScrollView extends StatefulWidget {
     this.clipBehavior = Clip.hardEdge,
     this.restorationId,
     this.scrollBehavior,
-    required this.selectedTabPositionIndex,
+    required this.activeTabLabel,
   })  : assert(scrollDirection != null),
         assert(reverse != null),
         assert(headerSliverBuilder != null),
@@ -190,7 +190,8 @@ class NestedScrollView extends StatefulWidget {
         assert(clipBehavior != null),
         super(key: key);
 
-  final int selectedTabPositionIndex;
+  /// A string to store current active tab label
+  final String activeTabLabel;
 
   /// An object that can be used to control the position to which the outer
   /// scroll view is scrolled.

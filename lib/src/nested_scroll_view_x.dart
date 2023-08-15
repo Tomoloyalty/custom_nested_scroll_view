@@ -2,14 +2,14 @@ part of 'nested_scroll_view.dart';
 
 class NestedScrollViewX extends NestedScrollView {
   const NestedScrollViewX({
-    required int selectedTabPositionIndex,
+    required _NestedScrollViewHeaderSliversBuilder headerSliverBuilder,
+    required Widget body,
+    required String activeTabLabel,
     Key? key,
     ScrollController? controller,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
     ScrollPhysics? physics,
-    required _NestedScrollViewHeaderSliversBuilder headerSliverBuilder,
-    required Widget body,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     bool floatHeaderSlivers = false,
     Clip clipBehavior = Clip.hardEdge,
@@ -28,7 +28,7 @@ class NestedScrollViewX extends NestedScrollView {
           clipBehavior: clipBehavior,
           restorationId: restorationId,
           scrollBehavior: scrollBehavior,
-          selectedTabPositionIndex: selectedTabPositionIndex,
+          activeTabLabel: activeTabLabel
         );
 
   static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(BuildContext context) {
@@ -45,16 +45,28 @@ class NestedScrollViewX extends NestedScrollView {
 }
 
 class NestedScrollViewStateX extends NestedScrollViewState {
+  List<String> tabsLabels = [];
+
   @override
   void initState() {
     super.initState();
+
     coordinator = _NestedScrollCoordinatorX(
       this,
       widget.controller,
       _handleHasScrolledBodyChanged,
       widget.floatHeaderSlivers,
-      () => widget.selectedTabPositionIndex,
+        ()=>getIndexOfTabLabel(widget.activeTabLabel),
     );
+  }
+
+  int getIndexOfTabLabel(String tabLabel){
+    if(tabsLabels.contains(tabLabel)){
+      return tabsLabels.indexOf(tabLabel);
+    }else{
+      tabsLabels = [...tabsLabels, tabLabel];
+      return 0;
+    }
   }
 }
 

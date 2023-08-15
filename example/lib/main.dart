@@ -107,7 +107,7 @@ class Home extends StatelessWidget {
                 ],
               ),
             ]),
-            selectedTabPositionIndex: 0,
+            activeTabLabel: '',
           ),
         ));
   }

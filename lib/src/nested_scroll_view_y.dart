@@ -2,7 +2,6 @@ part of 'nested_scroll_view.dart';
 
 class NestedScrollViewY extends NestedScrollView {
   const NestedScrollViewY({
-    required int selectedTabPositionIndex,
     Key? key,
     ScrollController? controller,
     Axis scrollDirection = Axis.vertical,
@@ -15,6 +14,7 @@ class NestedScrollViewY extends NestedScrollView {
     Clip clipBehavior = Clip.hardEdge,
     String? restorationId,
     ScrollBehavior? scrollBehavior,
+    required activeTabLabel,
   }) : super(
           key: key,
           controller: controller,
@@ -28,7 +28,7 @@ class NestedScrollViewY extends NestedScrollView {
           clipBehavior: clipBehavior,
           restorationId: restorationId,
           scrollBehavior: scrollBehavior,
-          selectedTabPositionIndex: selectedTabPositionIndex,
+      activeTabLabel:activeTabLabel
         );
 
   static _SliverOverlapAbsorberHandle sliverOverlapAbsorberHandleFor(BuildContext context) {

@@ -97,7 +97,7 @@ class CustomNestedScrollView extends StatelessWidget {
     this.restorationId,
     this.scrollBehavior,
     this.overscrollType = CustomOverscroll.outer,
-    required this.selectedTabPositionIndex,
+    required this.activeTabLabel,
   }) : super(key: key);
 
   final ScrollController? controller;
@@ -116,7 +116,7 @@ class CustomNestedScrollView extends StatelessWidget {
 
   final GlobalKey? nestedScrollViewKey;
 
-  final int selectedTabPositionIndex;
+  final String activeTabLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +135,7 @@ class CustomNestedScrollView extends StatelessWidget {
             clipBehavior: clipBehavior,
             restorationId: restorationId,
             scrollBehavior: scrollBehavior,
-            selectedTabPositionIndex: selectedTabPositionIndex,
+            activeTabLabel: activeTabLabel,
           )
         : NestedScrollViewY(
             key: nestedScrollViewKey,
@@ -151,7 +151,7 @@ class CustomNestedScrollView extends StatelessWidget {
             clipBehavior: clipBehavior,
             restorationId: restorationId,
             scrollBehavior: scrollBehavior,
-            selectedTabPositionIndex: selectedTabPositionIndex,
+            activeTabLabel: activeTabLabel,
           );
   }
 
