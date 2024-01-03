@@ -173,6 +173,7 @@ class _NestedScrollCoordinatorX extends _NestedScrollCoordinator {
       minRange: 0,
       maxRange: 0,
       correctionOffset: 0,
+      devicePixelRatio: _outerPosition!.devicePixelRatio,
     );
   }
 
@@ -306,7 +307,7 @@ class _NestedScrollPositionX extends _NestedScrollPosition {
           context.vsync,
         );
       case _NestedBallisticScrollActivityMode.independent:
-        return BallisticScrollActivity(this, simulation, context.vsync);
+        return BallisticScrollActivity(this, simulation, context.vsync,false);
     }
   }
 }
@@ -317,7 +318,7 @@ class _NestedBallisticScrollActivityX extends BallisticScrollActivity {
     _NestedScrollPosition position,
     Simulation simulation,
     TickerProvider vsync,
-  ) : super(position, simulation, vsync);
+  ) : super(position, simulation, vsync, false);
 
   final _NestedScrollCoordinator coordinator;
 
